@@ -1,0 +1,47 @@
+{
+  "ts-node": {
+    // It is faster to skip typechecking.
+    // Remove if you want ts-node to do typechecking.
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "module": "CommonJS",
+    }
+  },
+  "compilerOptions": {
+    "paths": {
+      "@nimel/sdk/*": [
+        "./packages/sdk/src/*",
+      ]
+    },
+    "target": "ES6",
+    "module": "ESNext",
+    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "es2019"
+    ],
+    "moduleResolution": "node",
+    "allowJs": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": false
+  },
+  "exclude": ["node_modules"],
+  "include": ["next-env.d.ts", "index.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"]
+}

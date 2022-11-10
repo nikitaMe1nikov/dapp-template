@@ -1,0 +1,89 @@
+{
+	"name": "@nimel/sdk",
+	"version": "0.1.0",
+	"private": true,
+	"main": "src/index.ts",
+	"jsnext:main": "src/index.ts",
+	"scripts": {
+		"dev": "next dev",
+		"build": "rollup -c ./rollup.config.js",
+		"start": "if test \"$STORYBOOK\" = true; then http-server ./storybook-static -gb -p $PORT; else next start -p $PORT; fi",
+		"lint": "tsc --noEmit && eslint --fix \"**/*.@(js|jsx|ts|tsx)\"",
+		"lint:check": "tsc --noEmit && eslint \"**/*.@(js|jsx|ts|tsx)\"",
+		"storybook": "start-storybook -s ./public -p 6006 --ci",
+		"build-storybook": "build-storybook -s ./public",
+		"start-build-storybook": "http-server ./storybook-static -gb -p 6006",
+		"swagger-types": "swagger-typescript-api --union-enums --js -p https://someapi/api-json --axios -o ./src/types -n apiAxios.ts",
+		"gen-contracts-types": "typechain --target web3-v1 --out-dir './src/types/contracts' './src/config/contracts/abi/*.json'",
+		"get-chainlist": "NODE_ENV=development ts-node ./src/scripts/getChainsList.ts",
+		"wallet-connect-proxy": "local-ssl-proxy --source 3001 --target 3000"
+	},
+	"peerDependencies": {
+		"mobx": ">=6",
+		"react": ">=16.14",
+		"react-dom": ">=16.14"
+	},
+	"dependencies": {
+		"@babel/core": "^7.17.8",
+		"@babel/plugin-transform-runtime": "^7.19.1",
+		"@babel/runtime-corejs3": "^7.19.1",
+		"@binance-chain/bsc-connector": "^1.0.0",
+		"@nimel/directorr": "^1.0.0-rc.18",
+		"@nimel/directorr-middlewares": "^1.0.0-rc.18",
+		"@nimel/directorr-react": "^1.0.0-rc.18",
+		"axios": "^0.27.2",
+		"axios-cache-interceptor": "^0.10.5",
+		"axios-mock-adapter": "^1.21.1",
+		"bignumber.js": "^9.1.0",
+		"ethers": "^5.7.1",
+		"lodash": "^4.17.21",
+		"redux-saga": "^1.1.3",
+		"rollup-plugin-esbuild": "^4.10.1",
+		"typed-redux-saga": "^1.4.0",
+		"wagmi": "^0.7.5",
+		"web3": "^1.7.1",
+		"web3-utils": "^1.7.1",
+		"yup": "^0.32.11"
+	},
+	"devDependencies": {
+		"@babel/plugin-proposal-class-properties": "^7.16.7",
+		"@babel/plugin-proposal-decorators": "^7.17.8",
+		"@babel/preset-env": "^7.19.3",
+		"@babel/preset-react": "^7.18.6",
+		"@babel/preset-typescript": "^7.18.6",
+		"@rollup/plugin-babel": "^5.3.1",
+		"@rollup/plugin-commonjs": "^22.0.2",
+		"@rollup/plugin-json": "^4.1.0",
+		"@rollup/plugin-node-resolve": "^14.1.0",
+		"@rollup/plugin-replace": "^4.0.0",
+		"@typechain/web3-v1": "^6.0.1",
+		"@types/lodash": "^4.14.180",
+		"babel-plugin-macros": "^3.1.0",
+		"mobx": "^6.2.0",
+		"mobx-react-lite": "^3.2.0",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2",
+		"rollup": "^2.79.1",
+		"rollup-plugin-delete": "^2.0.0",
+		"rollup-plugin-dts": "^4.2.2",
+		"rollup-plugin-node-externals": "^5.0.0",
+		"rollup-plugin-terser": "^7.0.2",
+		"swagger-typescript-api": "^9.3.1",
+		"typechain": "^8.1.0"
+	},
+	"engines": {
+		"node": "16.*"
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 4 chrome version",
+			"last 4 firefox version",
+			"last 4 safari version"
+		]
+	}
+}

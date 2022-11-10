@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "*": ["src/*"],
+      "@nimel/sdk/*": [
+        "../sdk/src/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "storybook-static"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ]
+}
