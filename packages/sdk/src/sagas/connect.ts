@@ -57,6 +57,7 @@ const CONNECT_EVENT = 'connect'
 const DISCONNECT_EVENT = 'disconnect'
 const CHAIN_CHANGED_EVENT = 'chainChanged'
 const MESSAGE_EVENT = 'message'
+const BLACK_LIST_MESSAGE = ['MetaMask: Disconnected from chain']
 
 export function* watchEtheriumAccountChanged(provider: any) {
   const channel = eventChannel<string[]>(emitter => {
@@ -92,8 +93,9 @@ export function* watchEtheriumConnected(provider: any) {
 }
 
 export function* watchEtheriumDisconnected(provider: any) {
-  const channel = eventChannel<{ error: Error | string }>(emitter => {
-    const handler = (error = ErrorCode.CODE_ERROR.network.disconnected) => emitter({ error })
+  const channel = eventChannel<{ error: Error }>(emitter => {
+    const handler = (error = ErrorCode.CODE_ERROR.network.disconnected) =>
+      emitter({ error: typeof error === 'string' ? new Error(error) : error })
     provider.on(DISCONNECT_EVENT, handler)
 
     return () => {
@@ -102,10 +104,10 @@ export function* watchEtheriumDisconnected(provider: any) {
   })
 
   while (true) {
-    const error = yield* take(channel)
+    const { error } = yield* take(channel)
     const { account: currentAccount } = yield* getQueryContext()
 
-    if (currentAccount) {
+    if (currentAccount && !BLACK_LIST_MESSAGE.some(m => error.message.includes(m))) {
       yield put(
         actionDisconnected.createAction({
           error: new ErrorCode(ErrorCode.CODE_ERROR.network.disconnected, error),
