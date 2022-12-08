@@ -22,9 +22,15 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 export const Public: FC = observer(() => {
   const { login, logout, user, chainID, changeChain, isLoading, isLogin } = useStore(AuthStore)
   const { data: blockNumber } = useQuery(getBlockNumber, EMPTY_INITVARIABLES)
-  const { getQuery: sendGas } = useMutation(sendToken)
+  const {
+    getQuery: sendGas,
+    isLoading: isLoadingSend,
+    isSuccess: isSuccessSend,
+    isError: isErrorSend,
+  } = useMutation(sendToken)
   const [curConnector, setCurConnector] = useState(0)
   const [currentChainID, setCurrentChainID] = useState(chainID)
+  const [amount, setAmount] = useState('0.001')
 
   const onChangeChain = (value: ChangeEvent<HTMLSelectElement>) => {
     setCurrentChainID(Number.parseInt(value.currentTarget.value))
@@ -44,7 +50,7 @@ export const Public: FC = observer(() => {
   }
 
   const send = () => {
-    sendGas({ to: '0x2144aB076F20499a6e932Bb0BBB57a4EdEdc82Ea', amount: '0.01' })
+    sendGas({ to: '0x2144aB076F20499a6e932Bb0BBB57a4EdEdc82Ea', amount })
   }
 
   useEffect(() => {
@@ -98,8 +104,16 @@ export const Public: FC = observer(() => {
       <h3>Actions</h3>
       <div>
         {user ? <button onClick={logout}>Logout</button> : <button onClick={onLogin}>Login</button>}
-        {user && <button onClick={send}>Send</button>}
       </div>
+      {user && (
+        <div>
+          <input value={amount} onChange={({ currentTarget }) => setAmount(currentTarget.value)} />
+          <button onClick={send}>
+            send {isLoadingSend ? '...loading' : ''} {isSuccessSend ? 'success' : ''}{' '}
+            {isErrorSend ? 'error' : ''}
+          </button>
+        </div>
+      )}
     </div>
   )
 })
