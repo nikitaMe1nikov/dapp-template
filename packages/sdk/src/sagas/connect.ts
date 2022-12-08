@@ -251,7 +251,8 @@ export function* initAnonimContext() {
 export function* changeContext() {
   const chainID = getNetworkChainID()
   const chain = getChain(chainID)
-  const { web3, account, connectorConfig } = yield* getQueryContext()
+  const { provider, account, connectorConfig } = yield* getQueryContext()
+  const web3 = new Web3(provider)
   const createContract = createContractFabric(web3, chain.id)
   const dispatch = yield* getDispatchContext()
   const runner = new QueryRunner({ dispatch })
